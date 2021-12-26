@@ -1,4 +1,4 @@
-"""REST client handling, including tap-codatioStream base class."""
+"""REST client handling, including CodatIoStream base class."""
 
 import requests
 from pathlib import Path
@@ -14,7 +14,7 @@ from singer_sdk.authenticators import APIKeyAuthenticator
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
 
-class tap-codatioStream(RESTStream):
+class CodatIoStream(RESTStream):
     """tap-codatio stream class."""
 
     url_base = "https://api.mysample.com"

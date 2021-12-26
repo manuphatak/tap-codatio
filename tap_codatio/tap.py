@@ -7,7 +7,7 @@ from singer_sdk import typing as th  # JSON schema typing helpers
 
 # TODO: Import your custom stream types here:
 from tap_codatio.streams import (
-    tap-codatioStream,
+    CodatIoStream,
     UsersStream,
     GroupsStream,
 )
@@ -19,7 +19,7 @@ STREAM_TYPES = [
 ]
 
 
-class Taptap-codatio(Tap):
+class TapCodatIo(Tap):
     """tap-codatio tap class."""
     name = "tap-codatio"
 

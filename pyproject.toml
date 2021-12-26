@@ -35,4 +35,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 # CLI declaration
-tap-codatio = 'tap_codatio.tap:Taptap-codatio.cli'
+tap-codatio = 'tap_codatio.tap:TapCodatIo.cli'

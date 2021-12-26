@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional, Union, List, Iterable
 
 from singer_sdk import typing as th  # JSON Schema typing helpers
 
-from tap_codatio.client import tap-codatioStream
+from tap_codatio.client import CodatIoStream
 
 # TODO: Delete this is if not using json files for schema definition
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
@@ -13,7 +13,7 @@ SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 #       - Copy-paste as many times as needed to create multiple stream types.
 
 
-class UsersStream(tap-codatioStream):
+class UsersStream(CodatIoStream):
     """Define custom stream."""
     name = "users"
     path = "/users"
@@ -49,7 +49,7 @@ class UsersStream(tap-codatioStream):
     ).to_dict()
 
 
-class GroupsStream(tap-codatioStream):
+class GroupsStream(CodatIoStream):
     """Define custom stream."""
     name = "groups"
     path = "/groups"
