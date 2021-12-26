@@ -17,6 +17,8 @@ SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 class CodatIoStream(RESTStream):
     """tap-codatio stream class."""
 
+    records_jsonpath = "$.results[*]"  # Or override `parse_response`.
+
     @property
     def url_base(self) -> str:
         """Return the API URL root, configurable via tap settings."""
@@ -25,9 +27,6 @@ class CodatIoStream(RESTStream):
             if self.config["uat"]
             else "https://api.codat.io/"
         )
-
-    records_jsonpath = "$[*]"  # Or override `parse_response`.
-    next_page_token_jsonpath = "$.next_page"  # Or override `get_next_page_token`.
 
     @property
     def authenticator(self) -> APIKeyAuthenticator:
@@ -51,30 +50,27 @@ class CodatIoStream(RESTStream):
         self, response: requests.Response, previous_token: Optional[Any]
     ) -> Optional[Any]:
         """Return a token for identifying next page or None if no more pages."""
-        # TODO: If pagination is required, return a token which can be used to get the
-        #       next page. If this is the final page, return "None" to end the
-        #       pagination loop.
-        if self.next_page_token_jsonpath:
-            all_matches = extract_jsonpath(
-                self.next_page_token_jsonpath, response.json()
-            )
-            first_match = next(iter(all_matches), None)
-            next_page_token = first_match
-        else:
-            next_page_token = response.headers.get("X-Next-Page", None)
+        next_href = next(
+            iter(extract_jsonpath("$._links.next.href", response.json())), None
+        )
+        if next_href is None:
+            return None
 
-        return next_page_token
+        next_page = next(iter(extract_jsonpath("$.pageNumber", response.json())))
+        return next_page + 1
 
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params: dict = {}
+        params["pageSize"] = 10
         if next_page_token:
             params["page"] = next_page_token
-        if self.replication_key:
-            params["sort"] = "asc"
-            params["order_by"] = self.replication_key
+
+        # if self.replication_key:
+        #     params["orderBy"] = self.replication_key
+
         return params
 
     def prepare_request_payload(

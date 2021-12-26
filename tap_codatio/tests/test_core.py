@@ -11,7 +11,7 @@ from tap_codatio.tap import TapCodatIo
 SAMPLE_CONFIG = {
     "start_date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d"),
     "uat": True,
-    "api_key": os.environ["API_KEY"],
+    "api_key": os.environ["TAP_CODATIO_API_KEY"],
 }
 
 

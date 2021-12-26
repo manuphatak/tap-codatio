@@ -20,7 +20,6 @@ class CompaniesStream(CodatIoStream):
     path = "/companies"
     primary_keys = ["id"]
     replication_key = None
-    # Optionally, you may also use `schema_filepath` in place of `schema`:
     schema_filepath = SCHEMAS_DIR / "companies.json"
 
 

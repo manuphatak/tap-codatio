@@ -59,10 +59,7 @@ pathspec = ">=0.9.0,<1"
 platformdirs = ">=2"
 tomli = ">=0.2.6,<2.0.0"
 typed-ast = {version = ">=1.4.2", markers = "python_version < \"3.8\" and implementation_name == \"cpython\""}
-typing-extensions = [
-    {version = ">=3.10.0.0", markers = "python_version < \"3.10\""},
-    {version = "!=3.10.0.1", markers = "python_version >= \"3.10\""},
-]
+typing-extensions = ">=3.10.0.0"
 
 [package.extras]
 colorama = ["colorama (>=0.4.3)"]
@@ -749,8 +746,8 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 
 [metadata]
 lock-version = "1.1"
-python-versions = "<3.11,>=3.6.2"
-content-hash = "9eb13876507e6b2bf3d978e1629ac27d5fbf1d7412a4577a64b9ba0e5305693a"
+python-versions = "<3.10,>=3.6.2"
+content-hash = "d5259e5c080c487f273bdad2b3ac9937f1bcd869b82d199d0450afbe31e1864e"
 
 [metadata.files]
 atomicwrites = [
