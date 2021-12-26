@@ -17,13 +17,14 @@ SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 class CodatIoStream(RESTStream):
     """tap-codatio stream class."""
 
-    url_base = "https://api.mysample.com"
-
-    # OR use a dynamic url_base:
-    # @property
-    # def url_base(self) -> str:
-    #     """Return the API URL root, configurable via tap settings."""
-    #     return self.config["api_url"]
+    @property
+    def url_base(self) -> str:
+        """Return the API URL root, configurable via tap settings."""
+        return (
+            "https://api-uat.codat.io"
+            if self.config["uat"]
+            else "https://api.codat.io/"
+        )
 
     records_jsonpath = "$[*]"  # Or override `parse_response`.
     next_page_token_jsonpath = "$.next_page"  # Or override `get_next_page_token`.
@@ -31,11 +32,9 @@ class CodatIoStream(RESTStream):
     @property
     def authenticator(self) -> APIKeyAuthenticator:
         """Return a new authenticator object."""
+        api_key = self.config.get("api_key")
         return APIKeyAuthenticator.create_for_stream(
-            self,
-            key="x-api-key",
-            value=self.config.get("api_key"),
-            location="header"
+            self, key="Authorization", value=f"Basic {api_key}", location="header"
         )
 
     @property

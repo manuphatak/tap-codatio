@@ -8,45 +8,41 @@ from singer_sdk import typing as th  # JSON schema typing helpers
 # TODO: Import your custom stream types here:
 from tap_codatio.streams import (
     CodatIoStream,
-    UsersStream,
-    GroupsStream,
+    CompaniesStream,
+    # UsersStream,
+    # GroupsStream,
 )
+
 # TODO: Compile a list of custom stream types here
 #       OR rewrite discover_streams() below with your custom logic.
 STREAM_TYPES = [
-    UsersStream,
-    GroupsStream,
+    CompaniesStream,
 ]
 
 
 class TapCodatIo(Tap):
     """tap-codatio tap class."""
+
     name = "tap-codatio"
 
     # TODO: Update this section with the actual config values you expect:
     config_jsonschema = th.PropertiesList(
         th.Property(
-            "auth_token",
+            "api_key",
             th.StringType,
             required=True,
-            description="The token to authenticate against the API service"
-        ),
-        th.Property(
-            "project_ids",
-            th.ArrayType(th.StringType),
-            required=True,
-            description="Project IDs to replicate"
+            description="The token to authenticate against the API service",
         ),
         th.Property(
             "start_date",
             th.DateTimeType,
-            description="The earliest record date to sync"
+            description="The earliest record date to sync",
         ),
         th.Property(
-            "api_url",
-            th.StringType,
-            default="https://api.mysample.com",
-            description="The url for the API service"
+            "uat",
+            th.BooleanType,
+            default=False,
+            description="Use the UAT endpoint",
         ),
     ).to_dict()
 
