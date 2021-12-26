@@ -1,0 +1,43 @@
+{
+  "required": ["id", "integrationId", "linkUrl", "platformName", "sourceId"],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "integrationId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "sourceId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "platformName": {
+      "type": "string"
+    },
+    "linkUrl": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "nullable": true
+    },
+    "lastSync": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "sourceType": {
+      "type": "string",
+      "nullable": true
+    }
+  },
+  "additionalProperties": false
+}

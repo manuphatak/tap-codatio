@@ -7,14 +7,11 @@ from singer_sdk import typing as th  # JSON Schema typing helpers
 
 from tap_codatio.client import CodatIoStream
 
-# TODO: Delete this is if not using json files for schema definition
+
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
-# TODO: - Override `UsersStream` and `GroupsStream` with your own stream definition.
-#       - Copy-paste as many times as needed to create multiple stream types.
 
 
 class CompaniesStream(CodatIoStream):
-    """Define custom stream."""
 
     name = "companies"
     path = "/companies"
@@ -22,39 +19,36 @@ class CompaniesStream(CodatIoStream):
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "companies.json"
 
-
-# class UsersStream(CodatIoStream):
-#     """Define custom stream."""
-
-#     name = "users"
-#     path = "/users"
-#     primary_keys = ["id"]
-#     replication_key = None
-#     # Optionally, you may also use `schema_filepath` in place of `schema`:
-#     # schema_filepath = SCHEMAS_DIR / "users.json"
-#     schema = th.PropertiesList(
-#         th.Property("name", th.StringType),
-#         th.Property("id", th.StringType, description="The user's system ID"),
-#         th.Property("age", th.IntegerType, description="The user's age in years"),
-#         th.Property("email", th.StringType, description="The user's email address"),
-#         th.Property("street", th.StringType),
-#         th.Property("city", th.StringType),
-#         th.Property(
-#             "state", th.StringType, description="State name in ISO 3166-2 format"
-#         ),
-#         th.Property("zip", th.StringType),
-#     ).to_dict()
+    def get_child_context(self, record: dict, context: Optional[dict]) -> dict:
+        self.logger.info("Company Record %s\nCompany Context %s", record, context)
+        return {
+            "company_id": record["id"],
+            "linked": record["dataConnections"][0]["status"] == "Linked",
+        }
 
 
-# class GroupsStream(CodatIoStream):
-#     """Define custom stream."""
+class ConnectionsStream(CodatIoStream):
+    name = "connections"
+    path = "/companies/{company_id}/connections"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "connections.json"
+    parent_stream_type = CompaniesStream
+    ignore_parent_replication_keys = True
 
-#     name = "groups"
-#     path = "/groups"
-#     primary_keys = ["id"]
-#     replication_key = "modified"
-#     schema = th.PropertiesList(
-#         th.Property("name", th.StringType),
-#         th.Property("id", th.StringType),
-#         th.Property("modified", th.DateTimeType),
-#     ).to_dict()
+
+class AccountsStream(CodatIoStream):
+    name = "accounts"
+    path = "/companies/{company_id}/data/accounts"
+    primary_keys = ["id"]
+    replication_key = None
+    schema_filepath = SCHEMAS_DIR / "accounts.json"
+    parent_stream_type = CompaniesStream
+    ignore_parent_replication_keys = True
+
+    def get_records(self, context: Optional[dict]) -> Iterable[Dict[str, Any]]:
+        return (
+            super().get_records(context)
+            if (context and context["linked"])
+            else iter(())
+        )

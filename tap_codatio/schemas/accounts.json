@@ -1,0 +1,82 @@
+{
+  "required": ["isBankAccount", "status", "type"],
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "nullable": true
+    },
+    "nominalCode": {
+      "type": "string",
+      "nullable": true
+    },
+    "name": {
+      "type": "string",
+      "nullable": true
+    },
+    "description": {
+      "type": "string",
+      "nullable": true
+    },
+    "fullyQualifiedCategory": {
+      "type": "string",
+      "nullable": true
+    },
+    "fullyQualifiedName": {
+      "type": "string",
+      "nullable": true
+    },
+    "currency": {
+      "type": "string",
+      "nullable": true
+    },
+    "currentBalance": {
+      "type": "number",
+      "format": "double",
+      "nullable": true
+    },
+    "type": {
+      "enum": ["Unknown", "Asset", "Expense", "Income", "Liability", "Equity"],
+      "type": "string"
+    },
+    "status": {
+      "enum": ["Unknown", "Active", "Archived", "Pending"],
+      "type": "string"
+    },
+    "isBankAccount": {
+      "type": "boolean"
+    },
+    "modifiedDate": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "sourceModifiedDate": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "validDatatypeLinks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "property": {
+            "type": "string",
+            "nullable": true
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "nullable": true
+    }
+  },
+  "additionalProperties": false
+}
