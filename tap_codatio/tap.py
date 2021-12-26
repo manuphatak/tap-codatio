@@ -5,20 +5,14 @@ from typing import List
 from singer_sdk import Tap, Stream
 from singer_sdk import typing as th  # JSON schema typing helpers
 
-# TODO: Import your custom stream types here:
 from tap_codatio.streams import (
     AccountsStream,
+    BillsStream,
     CompaniesStream,
     ConnectionsStream,
 )
 
-# TODO: Compile a list of custom stream types here
-#       OR rewrite discover_streams() below with your custom logic.
-STREAM_TYPES = [
-    CompaniesStream,
-    ConnectionsStream,
-    AccountsStream,
-]
+STREAM_TYPES = [CompaniesStream, ConnectionsStream, AccountsStream, BillsStream]
 
 
 class TapCodatIo(Tap):
@@ -26,7 +20,6 @@ class TapCodatIo(Tap):
 
     name = "tap-codatio"
 
-    # TODO: Update this section with the actual config values you expect:
     config_jsonschema = th.PropertiesList(
         th.Property(
             "api_key",

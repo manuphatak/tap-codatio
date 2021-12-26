@@ -11,6 +11,15 @@ from tap_codatio.client import CodatIoStream
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
 
+class FilterLinkedMixin(CodatIoStream):
+    def get_records(self, context: Optional[dict]) -> Iterable[Dict[str, Any]]:
+        return (
+            super().get_records(context)
+            if (context and context["linked"])
+            else iter(())
+        )
+
+
 class CompaniesStream(CodatIoStream):
 
     name = "companies"
@@ -37,18 +46,21 @@ class ConnectionsStream(CodatIoStream):
     ignore_parent_replication_keys = True
 
 
-class AccountsStream(CodatIoStream):
+class AccountsStream(FilterLinkedMixin, CodatIoStream):
     name = "accounts"
     path = "/companies/{company_id}/data/accounts"
     primary_keys = ["id"]
-    replication_key = None
+    replication_key = "modifiedDate"
     schema_filepath = SCHEMAS_DIR / "accounts.json"
     parent_stream_type = CompaniesStream
     ignore_parent_replication_keys = True
 
-    def get_records(self, context: Optional[dict]) -> Iterable[Dict[str, Any]]:
-        return (
-            super().get_records(context)
-            if (context and context["linked"])
-            else iter(())
-        )
+
+class BillsStream(FilterLinkedMixin, CodatIoStream):
+    name = "bills"
+    path = "/companies/{company_id}/data/bills"
+    primary_keys = ["id"]
+    replication_key = "modifiedDate"
+    schema_filepath = SCHEMAS_DIR / "bills.json"
+    parent_stream_type = CompaniesStream
+    ignore_parent_replication_keys = True

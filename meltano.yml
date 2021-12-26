@@ -13,6 +13,7 @@ plugins:
       settings:
         - name: uat
           kind: boolean
+          value: false
         - name: start_date
           kind: date_iso8601
           value: "2010-01-01T00:00:00Z"
@@ -25,3 +26,9 @@ plugins:
     - name: target-jsonl
       variant: andyh1203
       pip_url: target-jsonl
+    - name: target-bigquery
+      variant: adswerve
+      pip_url: git+https://github.com/adswerve/target-bigquery.git@0.11.3
+      config:
+        add_metadata_columns: true
+        validate_records: true

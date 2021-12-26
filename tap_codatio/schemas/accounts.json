@@ -2,6 +2,14 @@
   "required": ["isBankAccount", "status", "type"],
   "type": "object",
   "properties": {
+    "company_id": {
+      "type": "string",
+      "nullable": false
+    },
+    "linked": {
+      "type": "boolean",
+      "nullable": false
+    },
     "id": {
       "type": "string",
       "nullable": true

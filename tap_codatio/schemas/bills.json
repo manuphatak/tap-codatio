@@ -1,0 +1,413 @@
+{
+  "required": ["issueDate", "status", "subTotal", "taxAmount", "totalAmount"],
+  "type": "object",
+  "properties": {
+    "company_id": {
+      "type": "string",
+      "nullable": false
+    },
+    "linked": {
+      "type": "boolean",
+      "nullable": false
+    },
+    "id": {
+      "type": "string",
+      "nullable": true
+    },
+    "reference": {
+      "type": "string",
+      "nullable": true
+    },
+    "supplierRef": {
+      "$ref": "#/$defs/Codat.DataContracts.Datasets.SupplierRef"
+    },
+    "purchaseOrderRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Codat.DataContracts.Datasets.PurchaseOrderRef"
+      },
+      "nullable": true
+    },
+    "issueDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "currency": {
+      "type": "string",
+      "nullable": true
+    },
+    "currencyRate": {
+      "type": "number",
+      "format": "double",
+      "nullable": true
+    },
+    "lineItems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Codat.DataContracts.Datasets.BillLineItem"
+      },
+      "nullable": true
+    },
+    "withholdingTax": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Codat.DataContracts.Datasets.WithholdingTax"
+      },
+      "nullable": true
+    },
+    "status": {
+      "$ref": "#/$defs/Codat.DataContracts.Datasets.BillStatus"
+    },
+    "subTotal": {
+      "type": "number",
+      "format": "double"
+    },
+    "taxAmount": {
+      "type": "number",
+      "format": "double"
+    },
+    "totalAmount": {
+      "type": "number",
+      "format": "double"
+    },
+    "amountDue": {
+      "type": "number",
+      "format": "double",
+      "nullable": true
+    },
+    "modifiedDate": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "sourceModifiedDate": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "note": {
+      "type": "string",
+      "nullable": true
+    },
+    "paymentAllocations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Codat.DataContracts.Datasets.DetailedPaymentAllocation"
+      },
+      "nullable": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Codat.DataContracts.Datasets.BillLineItem": {
+      "required": ["quantity", "unitAmount"],
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "nullable": true
+        },
+        "unitAmount": {
+          "type": "number",
+          "format": "double"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double"
+        },
+        "discountAmount": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        },
+        "subTotal": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        },
+        "taxAmount": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        },
+        "totalAmount": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        },
+        "discountPercentage": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        },
+        "accountRef": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.AccountRef"
+        },
+        "taxRateRef": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.TaxRateRef"
+        },
+        "itemRef": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.ItemRef"
+        },
+        "trackingCategoryRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Codat.DataContracts.Datasets.TrackingCategoryRef"
+          },
+          "nullable": true
+        },
+        "tracking": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.AccountsPayableTracking"
+        },
+        "isDirectCost": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.WithholdingTax": {
+      "required": ["amount", "name"],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.BillStatus": {
+      "enum": ["Unknown", "Open", "PartiallyPaid", "Paid", "Void", "Draft"],
+      "type": "string"
+    },
+    "Codat.DataContracts.Datasets.DetailedPaymentAllocation": {
+      "required": ["allocation", "payment"],
+      "type": "object",
+      "properties": {
+        "payment": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.PaymentAllocationPayment"
+        },
+        "allocation": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.Allocation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.AccountRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "nullable": true
+        },
+        "name": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.TaxRateRef": {
+      "required": ["id"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "nullable": true
+        },
+        "effectiveTaxRate": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.ItemRef": {
+      "required": ["id"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.TrackingCategoryRef": {
+      "required": ["id"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.AccountsPayableTracking": {
+      "required": ["categoryRefs", "isBilledTo", "isRebilledTo"],
+      "type": "object",
+      "properties": {
+        "categoryRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Codat.DataContracts.Datasets.TrackingCategoryRef"
+          }
+        },
+        "customerRef": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.CustomerRef"
+        },
+        "projectRef": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.ProjectRef"
+        },
+        "isBilledTo": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.AccountsPayableIsBilledToType"
+        },
+        "isRebilledTo": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.AccountsPayableIsBilledToType"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.SupplierRef": {
+      "required": ["id"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "supplierName": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.PurchaseOrderRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "nullable": true
+        },
+        "purchaseOrderNumber": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.PaymentAllocationPayment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "nullable": true
+        },
+        "note": {
+          "type": "string",
+          "nullable": true
+        },
+        "reference": {
+          "type": "string",
+          "nullable": true
+        },
+        "accountRef": {
+          "$ref": "#/$defs/Codat.DataContracts.Datasets.AccountRef"
+        },
+        "currency": {
+          "type": "string",
+          "nullable": true
+        },
+        "currencyRate": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        },
+        "paidOnDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "totalAmount": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.Allocation": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "nullable": true
+        },
+        "currencyRate": {
+          "type": "number",
+          "format": "double",
+          "nullable": true
+        },
+        "allocatedOnDate": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true
+        },
+        "totalAmount": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.CustomerRef": {
+      "required": ["id"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "companyName": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.ProjectRef": {
+      "required": ["id"],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "nullable": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Codat.DataContracts.Datasets.AccountsPayableIsBilledToType": {
+      "enum": ["Unknown", "NotApplicable", "Customer", "Project"],
+      "type": "string"
+    }
+  }
+}

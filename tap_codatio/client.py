@@ -64,7 +64,7 @@ class CodatIoStream(RESTStream):
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params: dict = {}
-        # params["pageSize"] = 10
+        params["pageSize"] = 500
         params["page"] = 1
         if next_page_token:
             params["page"] = next_page_token
