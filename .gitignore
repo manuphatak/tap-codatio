@@ -137,3 +137,4 @@ dmypy.json
 /output/*.jsonl
 swagger.json
 client_secrets.json
+bigquery.json

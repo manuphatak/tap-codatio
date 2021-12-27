@@ -6,10 +6,6 @@
       "type": "string",
       "nullable": false
     },
-    "linked": {
-      "type": "boolean",
-      "nullable": false
-    },
     "id": {
       "type": "string",
       "format": "uuid"

@@ -1,0 +1,29 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Debug target-bigquery",
+      "type": "python",
+      "request": "launch",
+      "module": "target_bigquery.__init__",
+      "args": [
+        "--config",
+        // TODO: Automate this
+        // meltano config target-bigquery > bigquery.json
+        "${workspaceFolder}/bigquery.json",
+        "<",
+        // TODO: Automate this
+        // meltano invoke tap-codatio > events.log
+        "${workspaceFolder}/events.log"
+      ],
+      "python": "${workspaceFolder}/.meltano/loaders/target-bigquery/venv/bin/python",
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/client_secrets.json"
+      },
+      "justMyCode": false
+    }
+  ]
+}
